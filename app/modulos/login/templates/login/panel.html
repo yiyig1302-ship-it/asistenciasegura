@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block titulo %}Panel{% endblock %}
+{% block contenido %}
+<div class="rotulo-sec">Equipo E1</div>
+<h1 class="display">Panel principal</h1>
+<div class="tarjeta">
+  <p>Bienvenido, <strong>{{ session.nombre }}</strong>. Su rol es: <strong>{{ session.rol }}</strong>.</p>
+  <p>Panel en construcción (E1).</p>
+</div>
+{% endblock %}

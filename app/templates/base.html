@@ -1,0 +1,54 @@
+<!doctype html>
+{# app/templates/base.html - Plantilla madre: encabezado + menú + contenido.
+   Todas las pantallas de los equipos heredan de este archivo. #}
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}{% endblock %} · AsistenciaSegura-CECyTEM</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+  {% block estilos %}{% endblock %}
+</head>
+<body>
+<div class="app">
+  <header class="encabezado">
+    <div class="marca">AsistenciaSegura<small>CECyTEM Villa del Carbón</small></div>
+    {% if session.usuario_id is defined %}
+    <div class="usuario"><b>{{ session.nombre }}</b><br>{{ session.rol }} ·
+      <a href="{{ url_for('login.salir') }}" style="color:inherit">Cerrar sesión</a></div>
+    {% endif %}
+  </header>
+
+  <div class="cuerpo">
+    {% if session.usuario_id is defined %}
+    <nav class="menu">
+      {% set rol = session.rol %}
+      <a href="{{ url_for('login.panel') }}">Inicio</a>
+      {% if rol == 'Administrador' %}
+        <a href="{{ url_for('rfid_panel.index') }}">Credenciales</a>
+      {% endif %}
+      {% if rol in ['Administrador', 'Orientadora'] %}
+        <a href="{{ url_for('alertas.index') }}">Alertas WhatsApp</a>
+        <a href="{{ url_for('reportes.index') }}">Reportes</a>
+      {% endif %}
+      {% if rol == 'Administrador' %}
+        <a href="{{ url_for('usuarios.index') }}">Usuarios</a>
+      {% endif %}
+    </nav>
+    {% endif %}
+
+    <main class="contenido">
+      {# Mensajes flash: categorías exito | aviso | error | info #}
+      {% with mensajes = get_flashed_messages(with_categories=true) %}
+        {% for categoria, mensaje in mensajes %}
+          <div class="alerta alerta-{{ categoria }}">{{ mensaje }}</div>
+        {% endfor %}
+      {% endwith %}
+
+      {% block contenido %}{% endblock %}
+    </main>
+  </div>
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>

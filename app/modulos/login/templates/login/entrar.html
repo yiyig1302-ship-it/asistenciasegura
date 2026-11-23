@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block titulo %}Iniciar sesión{% endblock %}
+{% block contenido %}
+<div class="tarjeta" style="max-width:400px;margin:48px auto">
+  <div class="rotulo-sec">Equipo E1</div>
+  <h1 class="display">Iniciar sesión</h1>
+  <p>Formulario en construcción (E1).</p>
+  {% if config.MODO_DESARROLLO %}
+  <p class="ayuda">Modo desarrollo - entrar como:
+    <a href="{{ url_for('dev_entrar', rol='Administrador') }}">Administrador</a> ·
+    <a href="{{ url_for('dev_entrar', rol='Orientadora') }}">Orientadora</a> ·
+    <a href="{{ url_for('dev_entrar', rol='Alumno') }}">Alumno</a> ·
+    <a href="{{ url_for('dev_entrar', rol='Padre de familia') }}">Padre de familia</a>
+  </p>
+  {% endif %}
+</div>
+{% endblock %}
